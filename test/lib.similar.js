@@ -6,7 +6,7 @@ const assert = require('chai').assert;
 
 describe('Similar method', () => {
   it('should fetch a valid application list', () => {
-    return store.similar({id: '553834731'})
+    return store.similar({ id: '553834731' })
       .then((apps) => apps.map(assertValidApp));
   });
 
@@ -14,9 +14,9 @@ describe('Similar method', () => {
   // skipping as this functionality doesn't work anymore
   // see https://github.com/facundoolano/app-store-scraper/issues/49
   it.skip('should a different list in fr country', () => {
-    return store.similar({id: '553834731'})
+    return store.similar({ id: '553834731' })
       .then((usApps) => {
-        return store.similar({id: '553834731', country: 'fr'}).then(function (frApps) {
+        return store.similar({ id: '553834731', country: 'fr' }).then(function (frApps) {
           return {
             fr: frApps,
             us: usApps
@@ -33,20 +33,5 @@ describe('Similar method', () => {
         }
         assert(areDifferent, '2 similar list from different languages must be differents');
       });
-  });
-
-  it('should be able to set requestOptions', (done) => {
-    store.similar({
-      id: '553834731',
-      requestOptions: {
-        method: 'DELETE'
-      }
-    })
-      .then(() => done('should not resolve'))
-      .catch((err) => {
-        assert.equal(err.response.statusCode, 501);
-        done();
-      })
-      .catch(done);
   });
 });

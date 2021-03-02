@@ -19,7 +19,7 @@ function assertValid (review) {
 
 describe('Reviews method', () => {
   it('should retrieve the reviews of an app', () => {
-    return store.reviews({id: '553834731'})
+    return store.reviews({ id: '553834731' })
       .then((reviews) => {
         reviews.map(assertValid);
       });
@@ -41,20 +41,5 @@ describe('Reviews method', () => {
     })
       .then(assert.fail)
       .catch((e) => assert.equal(e.message, 'Page cannot be greater than 10'));
-  });
-
-  it('should be able to set requestOptions', (done) => {
-    store.reviews({
-      id: '553834731',
-      requestOptions: {
-        method: 'DELETE'
-      }
-    })
-      .then(() => done('should not resolve'))
-      .catch((err) => {
-        assert.equal(err.response.statusCode, 501);
-        done();
-      })
-      .catch(done);
   });
 });

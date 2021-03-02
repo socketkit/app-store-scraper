@@ -6,13 +6,13 @@ const assert = require('chai').assert;
 
 describe('Search method', () => {
   it('should fetch a valid application list', () => {
-    return store.search({term: 'Panda vs Zombies'})
+    return store.search({ term: 'Panda vs Zombies' })
       .then((apps) => apps.map(assertValidApp));
   });
 
   it('should properly paginate results', () => {
-    const p1 = store.search({term: 'Panda', num: 10});
-    const p2 = store.search({term: 'Panda', num: 10, page: 2});
+    const p1 = store.search({ term: 'Panda', num: 10 });
+    const p2 = store.search({ term: 'Panda', num: 10, page: 2 });
     return Promise.all([p1, p2])
       .then(([apps1, apps2]) => {
         assert.equal(10, apps1.length);
@@ -24,10 +24,10 @@ describe('Search method', () => {
   });
 
   it('should fetch a valid application list in fr country', () => {
-    return store.search({country: 'fr', term: 'Panda vs Zombies'})
+    return store.search({ country: 'fr', term: 'Panda vs Zombies' })
       .then((apps) => {
         apps.map(assertValidApp);
-        assert(apps[0]['url'].startsWith('https://apps.apple.com/fr'), 'should return french app');
+        assert(apps[0].url.startsWith('https://apps.apple.com/fr'), 'should return french app');
       });
   });
 
@@ -41,21 +41,6 @@ describe('Search method', () => {
         apps.map(assertValidApp);
         assert(apps.length === count, `should return ${count} items but ${apps.length} returned`);
       });
-  });
-
-  it('should be able to set requestOptions', (done) => {
-    store.search({
-      term: 'vr',
-      requestOptions: {
-        method: 'DELETE'
-      }
-    })
-      .then(() => done('should not resolve'))
-      .catch((err) => {
-        assert.equal(err.response.statusCode, 501);
-        done();
-      })
-      .catch(done);
   });
 
   it('should be able to retrieve array of application ids', (done) => {

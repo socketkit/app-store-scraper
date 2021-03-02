@@ -50,7 +50,7 @@ describe('List method', () => {
       num: 3
     })
       .then((apps) => apps.map(assertValidApp))
-      .then((apps) => apps.map((app) => {
+      .then((apps) => apps.forEach((app) => {
         assert.isString(app.description);
 
         // getting some entertainment apps here, skipping the check
@@ -65,21 +65,5 @@ describe('List method', () => {
           assertValidUrl(app.developerWebsite);
         }
       }));
-  });
-
-  it('should be able to set requestOptions', (done) => {
-    store.list({
-      collection: store.collection.TOP_FREE_GAMES_IOS,
-      num: 5,
-      requestOptions: {
-        method: 'DELETE'
-      }
-    })
-      .then(() => done('should not resolve'))
-      .catch((err) => {
-        assert.equal(err.response.statusCode, 501);
-        done();
-      })
-      .catch(done);
   });
 });
